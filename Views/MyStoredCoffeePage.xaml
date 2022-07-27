@@ -1,17 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage
-    x:Class="MyCoffeeApp.Views.CoffeeEquipmentPage"
+    x:Class="MyCoffeeApp.Views.MyStoredCoffeePage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:model="clr-namespace:MyCoffeeApp.Models"
     xmlns:mvvm="clr-namespace:MvvmHelpers;assembly=MvvmHelpers"
     xmlns:viewmodels="clr-namespace:MyCoffeeApp.ViewModels"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-    x:Name="CoffeePage"
-    x:DataType="viewmodels:CoffeeEquipmentViewModel"
+    x:Name="MyCoffeePage"
+    x:DataType="viewmodels:MyCoffeeViewModel"
     BackgroundColor="White">
     <ContentPage.BindingContext>
-        <viewmodels:CoffeeEquipmentViewModel />
+        <viewmodels:MyCoffeeViewModel />
     </ContentPage.BindingContext>
 
     <ContentPage.Resources>
@@ -20,35 +20,31 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Add" Command="{Binding AddCommand}"/>
+    </ContentPage.ToolbarItems>
+
 
     <ListView
         BackgroundColor="Transparent"
         CachingStrategy="RecycleElement"
-        GroupDisplayBinding="{Binding Key}"
         HasUnevenRows="True"
-        IsGroupingEnabled="True"
         IsPullToRefreshEnabled="True"
         IsRefreshing="{Binding IsBusy, Mode=OneWay}"
-        ItemsSource="{Binding CoffeeGroups}"
+        ItemsSource="{Binding Coffee}"
         RefreshCommand="{Binding RefreshCommand}"
         RefreshControlColor="Red"
-        SelectedItem="{Binding SelectedCoffee, Mode=TwoWay}"
+        SelectionMode="None"
         SeparatorVisibility="None">
-        <ListView.Behaviors>
-            <xct:EventToCommandBehavior
-                EventName="ItemSelected"
-                Command="{Binding SelectedCommand}"                
-                EventArgsConverter="{StaticResource ItemSelectedEventArgsConverter}"/>
-        </ListView.Behaviors>
         <ListView.ItemTemplate>
             <DataTemplate x:DataType="model:Coffee">
                 <ViewCell>
                     <ViewCell.ContextActions>
                         <MenuItem
-                            Command="{Binding Source={x:Reference CoffeePage}, Path=BindingContext.FavoriteCommand}"
+                            Command="{Binding Source={x:Reference MyCoffeePage}, Path=BindingContext.RemoveCommand}"
                             CommandParameter="{Binding .}"
-                            Text="Favorite" />
-                        <MenuItem IsDestructive="True" Text="Delete" />
+                            IsDestructive="True"
+                            Text="Delete" />
                     </ViewCell.ContextActions>
                     <Grid Padding="10">
                         <Frame CornerRadius="20" HasShadow="True">
@@ -63,6 +59,10 @@
                                         FontSize="Large"
                                         Text="{Binding Roaster}"
                                         VerticalOptions="Center" />
+                                    <Label
+                                        FontSize="Small"
+                                        Text="{Binding Id}"
+                                        VerticalOptions="Center" />
                                 </StackLayout>
                             </StackLayout>
                         </Frame>
@@ -70,16 +70,5 @@
                 </ViewCell>
             </DataTemplate>
         </ListView.ItemTemplate>
-        <ListView.Header>
-            <StackLayout Orientation="Horizontal">
-                <Label HorizontalOptions="Center" Text="Coffee of the World" />
-            </StackLayout>
-        </ListView.Header>
-        <ListView.Footer>
-            <StackLayout HorizontalOptions="Center" Orientation="Horizontal">
-                <Button Command="{Binding LoadMoreCommand}" Text="Load More" />
-            </StackLayout>
-        </ListView.Footer>
     </ListView>
-
 </ContentPage>

@@ -74,7 +74,7 @@ namespace MyCoffeeApp.ViewModels
             if (Coffee.Count >= 20)
                 return;
 
-            var image = "https://www.yesplz.coffee/app/uploads/2020/11/emptybag-min.png";
+            var image = "https://www.psdmockups.com/wp-content/uploads/2019/12/Coffee-Bean-Bag-PSD-Mockup.jpg";
             Coffee.Add(new Coffee { Roaster = "Yes Plz", Name = "Sip of Sunshine", Image = image });
             Coffee.Add(new Coffee { Roaster = "Yes Plz", Name = "Potent Potable", Image = image });
             Coffee.Add(new Coffee { Roaster = "Yes Plz", Name = "Potent Potable", Image = image });
