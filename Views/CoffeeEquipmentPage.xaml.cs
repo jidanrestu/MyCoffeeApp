@@ -24,14 +24,9 @@ namespace MyCoffeeApp.Views
         private async void ListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
             var coffee = ((ListView)sender).SelectedItem as Coffee;
-            if (coffee == null)
-            {
-                return;
-            }
-            else
-            {
-                await DisplayAlert("Coffee Selected", coffee.Name, "OK");
-            }
+            if (coffee == null) return;
+            else await DisplayAlert("Coffee Selected", coffee.Name, "OK");
+            
         }
 
         private void ListView_ItemTapped(object sender, ItemTappedEventArgs e)
@@ -42,14 +37,8 @@ namespace MyCoffeeApp.Views
         private async void MenuItem_Clicked(object sender, EventArgs e)
         {
             var coffee = ((MenuItem)sender).BindingContext as Coffee;
-            if (coffee == null)
-            {
-                return;
-            }
-            else
-            {
-                await DisplayAlert("Coffee Selected", coffee.Name, "OK");
-            }
+            if (coffee == null) return;
+            else await DisplayAlert("Coffee Selected", coffee.Name, "OK");
         }
     }
 }
