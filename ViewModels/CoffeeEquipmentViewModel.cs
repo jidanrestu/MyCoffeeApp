@@ -1,14 +1,10 @@
 ﻿using MvvmHelpers;
 using MvvmHelpers.Commands;
 using MyCoffeeApp.Models;
-using System;
 using System.Linq;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using Xamarin.Forms;
+using Command = MvvmHelpers.Commands.Command;
 
 namespace MyCoffeeApp.ViewModels
 {
@@ -18,58 +14,92 @@ namespace MyCoffeeApp.ViewModels
         public ObservableRangeCollection<Grouping<string, Coffee>> CoffeeGroups { get; }
         public AsyncCommand RefreshCommand { get; }
         public AsyncCommand<Coffee> FavoriteCommand { get; }
+        public AsyncCommand<object> SelectedCommand { get; }
+        public Command LoadMoreCommand { get; }
+        public Command DelayLoadMoreCommand { get; }
+        public Command ClearCommand { get; }
         public CoffeeEquipmentViewModel()
         {
             Title = "Coffee Equipment";
             Coffee = new ObservableRangeCollection<Coffee>();
             CoffeeGroups = new ObservableRangeCollection<Grouping<string, Coffee>>();
 
-            var image = "https://png.pngtree.com/png-vector/20190223/ourmid/pngtree-vector-picture-icon-png-image_695350.jpg";
-
-            Coffee.Add(new Coffee { Roaster = "Yes Plz", Name = "Sip of Sunshine", Image = image });
-            Coffee.Add(new Coffee { Roaster = "Yes Plz", Name = "Potent Potable", Image = image });
-            Coffee.Add(new Coffee { Roaster = "Blue Bottle", Name = "Kenya Kiambu Handege", Image = image });
-            Coffee.Add(new Coffee { Roaster = "Yes Plz", Name = "Sip of Sunshine", Image = image });
-            Coffee.Add(new Coffee { Roaster = "Yes Plz", Name = "Potent Potable", Image = image });
-            Coffee.Add(new Coffee { Roaster = "Blue Bottle", Name = "Kenya Kiambu Handege", Image = image });
-
-            CoffeeGroups.Add(new Grouping<string, Coffee>("Blue Bottle", new[] { Coffee[2] }));
-            CoffeeGroups.Add(new Grouping<string, Coffee>("Yes Plz", Coffee.Take(2)));
+            LoadMore();
 
             RefreshCommand = new AsyncCommand(Refresh);
             FavoriteCommand = new AsyncCommand<Coffee>(Favorite);
+            SelectedCommand = new AsyncCommand<object>(Selected);
+            LoadMoreCommand = new Command(LoadMore);
+            ClearCommand = new Command(Clear);
+            DelayLoadMoreCommand = new Command(DelayLoadMore);
         }
-
         async Task Favorite(Coffee coffee)
         {
-            if (coffee == null) return;
+            if (coffee == null)
+                return;
             await Application.Current.MainPage.DisplayAlert("Favorite", coffee.Name, "OK");
         }
 
+        Coffee previouslySelected;
         Coffee selectedCoffee;
         public Coffee SelectedCoffee
         {
             get => selectedCoffee;
-            set
-            {
-                if (value != null)
-                {
-                    Application.Current.MainPage.DisplayAlert("Selected", value.Name, "OK");
-                    value = null;
-                }
-
-                selectedCoffee = value;
-                OnPropertyChanged();
-            }
+            set => SetProperty(ref selectedCoffee, value);
         }
 
+        async Task Selected(object args)
+        {
+            var coffee = args as Coffee;
+            if (coffee == null)
+                return;
+
+            SelectedCoffee = null;
+            await Application.Current.MainPage.DisplayAlert("Selected", coffee.Name, "OK");
+        }
         async Task Refresh()
         {
             IsBusy = true;
 
             await Task.Delay(2000);
 
+            Coffee.Clear();
+            LoadMore();
+
             IsBusy = false;
+        }
+
+        void LoadMore()
+        {
+            if (Coffee.Count >= 20)
+                return;
+
+            var image = "https://www.yesplz.coffee/app/uploads/2020/11/emptybag-min.png";
+            Coffee.Add(new Coffee { Roaster = "Yes Plz", Name = "Sip of Sunshine", Image = image });
+            Coffee.Add(new Coffee { Roaster = "Yes Plz", Name = "Potent Potable", Image = image });
+            Coffee.Add(new Coffee { Roaster = "Yes Plz", Name = "Potent Potable", Image = image });
+            Coffee.Add(new Coffee { Roaster = "Blue Bottle", Name = "Kenya Kiambu Handege", Image = image });
+            Coffee.Add(new Coffee { Roaster = "Blue Bottle", Name = "Kenya Kiambu Handege", Image = image });
+
+            CoffeeGroups.Clear();
+
+            CoffeeGroups.Add(new Grouping<string, Coffee>("Blue Bottle", Coffee.Where(c => c.Roaster == "Blue Bottle")));
+            CoffeeGroups.Add(new Grouping<string, Coffee>("Yes Plz", Coffee.Where(c => c.Roaster == "Yes Plz")));
+        }
+
+        void DelayLoadMore()
+        {
+            if (Coffee.Count <= 10)
+                return;
+
+            LoadMore();
+        }
+
+
+        void Clear()
+        {
+            Coffee.Clear();
+            CoffeeGroups.Clear();
         }
 
     }

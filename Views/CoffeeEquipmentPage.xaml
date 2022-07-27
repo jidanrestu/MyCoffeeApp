@@ -6,12 +6,19 @@
     xmlns:model="clr-namespace:MyCoffeeApp.Models"
     xmlns:mvvm="clr-namespace:MvvmHelpers;assembly=MvvmHelpers"
     xmlns:viewmodels="clr-namespace:MyCoffeeApp.ViewModels"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     x:DataType="viewmodels:CoffeeEquipmentViewModel"
     BackgroundColor="White"
     x:Name="CoffeePage">
     <ContentPage.BindingContext>
         <viewmodels:CoffeeEquipmentViewModel/>
     </ContentPage.BindingContext>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <xct:ItemSelectedEventArgsConverter x:Key="ItemSelectedEventArgsConverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
 
     <ListView
         SelectedItem="{Binding SelectedCoffee, Mode=TwoWay}"
@@ -26,6 +33,12 @@
         IsRefreshing="{Binding IsBusy, Mode=OneWay}"
         RefreshCommand="{Binding RefreshCommand}"
         RefreshControlColor="Blue">
+        <ListView.Behaviors>
+            <xct:EventToCommandBehavior
+                EventName="ItemSelected"
+                Command="{Binding SelectedCommand}"
+                EventArgsConverter="{StaticResource ItemSelectedEventArgsConverter}"/>
+        </ListView.Behaviors>
         <ListView.Header>
             <StackLayout Orientation="Horizontal">
                 <Label HorizontalOptions="Center" Text="Coffee of the World"/>
@@ -40,18 +53,13 @@
                         <MenuItem Text="Delete" IsDestructive="True" />
                     </ViewCell.ContextActions>
                     <Grid Padding="10">
-                        <Frame CornerRadius="20" HasShadow="True">
+                        <Frame CornerRadius="10" HasShadow="True">
                             <StackLayout Orientation="Horizontal">
                                 <Image Source="{Binding Image}" WidthRequest="66"/>
                                 <StackLayout VerticalOptions="Center">
                                     <Label VerticalOptions="Center" FontSize="Medium" TextColor="Black" Text="{Binding Name}"/>
                                     <Label VerticalOptions="Center" FontSize="Medium" TextColor="Black" Text="{Binding Roaster}"/>
                                 </StackLayout>
-
-                                <Button
-                                    Text="Favorite"
-                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:CoffeeEquipmentViewModel}}, Path=FavoriteCommand }"
-                                    CommandParameter="{Binding .}"/>
                             </StackLayout>
                         </Frame>
                     </Grid>
@@ -60,7 +68,7 @@
         </ListView.ItemTemplate>
         <ListView.Footer>
             <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
-                <Button Text="Load More"/>
+                <Button Text="Load More" Command="{Binding LoadMoreCommand}" />
             </StackLayout>
         </ListView.Footer>
     </ListView>
