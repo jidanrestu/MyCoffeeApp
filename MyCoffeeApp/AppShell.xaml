@@ -84,7 +84,10 @@
     <ShellItem Route="LoginPage" FlyoutItemIsVisible="False">
         <ShellContent ContentTemplate="{DataTemplate local:LoginPage}"/>
     </ShellItem>
-    <FlyoutItem Title="Equipment" Icon="icon_about.png">
+    <FlyoutItem Title="Equipment">
+        <FlyoutItem.Icon>
+            <FontImageSource FontFamily="FAS" Glyph="{StaticResource IconCoffee}"/>
+        </FlyoutItem.Icon>
         <ShellContent ContentTemplate="{DataTemplate local:CoffeeEquipmentPage}" Route="CoffeeEquipmentPage" />
     </FlyoutItem>
     <FlyoutItem Title="Equipment - CV" Icon="icon_about.png">
