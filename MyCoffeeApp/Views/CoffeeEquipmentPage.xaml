@@ -10,7 +10,7 @@
     xmlns:fontAwesome="clr-namespace:FontAwesome"
     x:Name="CoffeePage"
     x:DataType="viewmodels:CoffeeEquipmentViewModel"
-    BackgroundColor="{StaticResource WindowBackgroundColor}">
+    BackgroundColor="{AppThemeBinding Dark={StaticResource WindowBackgroundColorDark}, Light={StaticResource WindowBackgroundColor}}">
     <ContentPage.BindingContext>
         <viewmodels:CoffeeEquipmentViewModel />
     </ContentPage.BindingContext>
@@ -71,13 +71,27 @@
                 </ViewCell>
             </DataTemplate>
         </ListView.ItemTemplate>
+        <ListView.GroupHeaderTemplate>
+            <DataTemplate x:DataType="{x:Null}">
+                <ViewCell>
+                    <StackLayout Padding="20,0">
+                        <Label Style="{StaticResource LabelMedium}" Text="{Binding Key}" />
+                    </StackLayout>
+                </ViewCell>
+            </DataTemplate>
+        </ListView.GroupHeaderTemplate>
         <ListView.Header>
             <StackLayout Orientation="Horizontal">
-                <Label HorizontalOptions="Center" 
-                       Text="{x:Static fontAwesome:FontAwesomeIcons.Coffee}"
-                       FontSize="Large"
-                       FontFamily="FAS"
-                       Margin="20"/>
+                <Label
+                    Margin="20"
+                    FontFamily="AC"
+                    HorizontalOptions="Center"
+                    Style="{StaticResource LabelLarge}"
+                    Text="Coffees of the World">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
+                    </Label.GestureRecognizers>
+                </Label>
             </StackLayout>
         </ListView.Header>
         <ListView.Footer>

@@ -4,6 +4,7 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:MyCoffeeApp.Views"
+    xmlns:fontAwesome="clr-namespace:FontAwesome"
     Title="MyCoffeeApp">
     <!--
         The overall app visual hierarchy is defined here, along with navigation.
@@ -86,7 +87,7 @@
     </ShellItem>
     <FlyoutItem Title="Equipment">
         <FlyoutItem.Icon>
-            <FontImageSource FontFamily="FAS" Glyph="{StaticResource IconCoffee}"/>
+            <FontImageSource FontFamily="FAS" Glyph="{StaticResource IconCoffee}" Color="{StaticResource SystemGray5Dark}"/>
         </FlyoutItem.Icon>
         <ShellContent ContentTemplate="{DataTemplate local:CoffeeEquipmentPage}" Route="CoffeeEquipmentPage" />
     </FlyoutItem>
@@ -98,6 +99,14 @@
     </FlyoutItem>
     <FlyoutItem Title="Internet Coffee" Icon="icon_about.png">
         <ShellContent ContentTemplate="{DataTemplate local:InternetCoffeePage}" Route="InternetCoffeePage" />
+    </FlyoutItem>
+    <FlyoutItem Title="Settings">
+        <FlyoutItem.Icon>
+            <FontImageSource FontFamily="FAS"
+                             Color="{StaticResource SystemGray5Dark}"
+                             Glyph="{x:Static fontAwesome:FontAwesomeIcons.Cog}"/>
+        </FlyoutItem.Icon>
+        <ShellContent ContentTemplate="{DataTemplate local:SettingsPage}" Route="SettingsPage" />
     </FlyoutItem>
 
 </Shell>
