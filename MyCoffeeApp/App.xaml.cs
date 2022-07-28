@@ -2,6 +2,7 @@
 using MonkeyCache.FileStore;
 using MyCoffeeApp.Views;
 using MyCoffeeApp.Helpers;
+using MyCoffeeApp.Services;
 using System;
 using Xamarin.Essentials;
 using Xamarin.Forms;
