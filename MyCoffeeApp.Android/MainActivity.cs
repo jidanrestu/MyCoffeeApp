@@ -12,7 +12,6 @@ using MyCoffeeApp.Droid;
 using MyCoffeeApp.Helpers;
 
 [assembly: Dependency(typeof(Toaster))]
-[assembly: Dependency(typeof(Toaster))]
 [assembly: Dependency(typeof(MyCoffeeApp.Droid.Environment))]
 
 namespace MyCoffeeApp.Droid
