@@ -29,7 +29,7 @@ namespace MyCoffeeApp.Services
         public async Task AddCoffee(string name, string roaster)
         {
             await Init();
-            var image = "https://www.yesplz.coffee/app/uploads/2020/11/emptybag-min.png";
+            var image = "https://raw.githubusercontent.com/jamesmontemagno/MyCoffeeApp/bbbdc9baa31886f11545793ea5e9b0ed541e39fc/MyCoffeeApp/MyCoffeeApp.Android/Resources/drawable/coffeebag.png";
             var coffee = new Coffee
             {
                 Name = name,

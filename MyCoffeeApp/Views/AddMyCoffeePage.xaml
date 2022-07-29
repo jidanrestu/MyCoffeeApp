@@ -6,10 +6,12 @@
     xmlns:viewmodel="clr-namespace:MyCoffeeApp.ViewModels"
     Title="{Binding Title}"
     x:DataType="viewmodel:AddMyCoffeeViewModel"
-    BackgroundColor="{StaticResource WindowBackgroundColor}"
+    BackgroundColor="{AppThemeBinding 
+                    Dark={StaticResource WindowBackgroundColorDark}, 
+                    Light={StaticResource WindowBackgroundColor}}"
     Shell.PresentationMode="Modal">
     <ContentPage.BindingContext>
-        <viewmodel:AddMyCoffeeViewModel/>
+        <viewmodel:AddMyCoffeeViewModel />
     </ContentPage.BindingContext>
     <ContentPage.Content>
         <StackLayout Padding="20">
@@ -20,11 +22,11 @@
                    Style="{StaticResource LabelMedium}" />
             <Entry Text="{Binding Roaster}" />
 
-            <ActivityIndicator 
-                IsVisible="{Binding IsBusy}"
-                IsRunning="{Binding IsBusy}"
+            <ActivityIndicator
                 HorizontalOptions="Center"
-                VerticalOptions="Center"/>
+                IsRunning="{Binding IsBusy}"
+                IsVisible="{Binding IsBusy}"
+                VerticalOptions="Center" />
 
             <Button
                 Padding="20,0"
@@ -36,4 +38,4 @@
                 Style="{StaticResource ButtonOutline}"/>
         </StackLayout>
     </ContentPage.Content>
-</ContentPage> 
+</ContentPage>

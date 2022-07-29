@@ -54,7 +54,7 @@ namespace MyCoffeeApp.ViewModels
 
             var coffees = await InternetCoffeeService.GetCoffee();
 
-            Coffee.AddRange(coffees);
+            Coffee.AddRange((System.Collections.Generic.IEnumerable<Coffee>)coffees);
 
             IsBusy = false;
         }

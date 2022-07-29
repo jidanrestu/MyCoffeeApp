@@ -22,6 +22,7 @@ namespace MyCoffeeApp.ViewModels
         {
             Title = "Add Coffee";
             SaveCommand = new AsyncCommand(Save);
+            coffeeService = DependencyService.Get<ICoffeeService>();
         }
 
         async Task Save()

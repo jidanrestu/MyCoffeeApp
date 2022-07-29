@@ -18,6 +18,7 @@ namespace MyCoffeeApp.Views
         public MyCoffeeDetailsPage()
         {
             InitializeComponent();
+            coffeeService = DependencyService.Get<ICoffeeService>();
         }
 
         protected override async void OnAppearing()

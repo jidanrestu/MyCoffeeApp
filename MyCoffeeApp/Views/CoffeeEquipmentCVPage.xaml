@@ -8,7 +8,7 @@
     xmlns:viewmodels="clr-namespace:MyCoffeeApp.ViewModels"
     xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
     x:Name="CoffeePage"
-    BackgroundColor="{StaticResource WindowBackgroundColor}">
+    BackgroundColor="{AppThemeBinding Dark={StaticResource WindowBackgroundColorDark}, Light={StaticResource WindowBackgroundColor}}">
     <ContentPage.BindingContext>
         <viewmodels:CoffeeEquipmentViewModel />
     </ContentPage.BindingContext>
@@ -41,7 +41,7 @@
             </CollectionView.GroupHeaderTemplate>
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <SwipeView android:SwipeView.SwipeTransitionMode="Drag">
+                    <SwipeView android:SwipeView.SwipeTransitionMode="Drag" BackgroundColor="{AppThemeBinding Dark={StaticResource WindowBackgroundColorDark}, Light={StaticResource WindowBackgroundColor}}">
                         <SwipeView.RightItems>
                             <SwipeItems>
                                 <SwipeItem

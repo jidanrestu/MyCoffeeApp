@@ -1,5 +1,5 @@
 ﻿using MonkeyCache.FileStore;
-using MyCoffeeApp.Shared.Models;
+using MyCoffeeApp.Models;
 using Newtonsoft.Json;
 using SQLite;
 using System;
@@ -10,16 +10,13 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
-
 namespace MyCoffeeApp.Services
 {
     public static class InternetCoffeeService
     {
         //static string Baseurl = DeviceInfo.Platform == DevicePlatform.Android ?
         //                                    "http://10.0.2.2:5000" : "http://localhost:5000";
-
         static string BaseUrl = "YOUR URL";
-
         static HttpClient client;
 
         static InternetCoffeeService()
@@ -39,22 +36,18 @@ namespace MyCoffeeApp.Services
 
         public static Task<IEnumerable<Coffee>> GetCoffee() =>
             GetAsync<IEnumerable<Coffee>>("api/Coffee", "getcoffee");
-
         static async Task<T> GetAsync<T>(string url, string key, int mins = 1, bool forceRefresh = false)
         {
             var json = string.Empty;
-
             if (Connectivity.NetworkAccess != NetworkAccess.Internet)
                 json = Barrel.Current.Get<string>(key);
             else if (!forceRefresh && !Barrel.Current.IsExpired(key))
                 json = Barrel.Current.Get<string>(key);
-
             try
             {
                 if (string.IsNullOrWhiteSpace(json))
                 {
                     json = await client.GetStringAsync(url);
-
                     Barrel.Current.Add(key, json, TimeSpan.FromMinutes(mins));
                 }
                 return JsonConvert.DeserializeObject<T>(json);
@@ -65,11 +58,10 @@ namespace MyCoffeeApp.Services
                 throw ex;
             }
         }
-
         static Random random = new Random();
         public static async Task AddCoffee(string name, string roaster)
         {
-            var image = "coffeebag.png";
+            var image = "https://raw.githubusercontent.com/jamesmontemagno/MyCoffeeApp/bbbdc9baa31886f11545793ea5e9b0ed541e39fc/MyCoffeeApp/MyCoffeeApp.Android/Resources/drawable/coffeebag.png";
             var coffee = new Coffee
             {
                 Name = name,
@@ -77,28 +69,21 @@ namespace MyCoffeeApp.Services
                 Image = image,
                 Id = random.Next(0, 10000)
             };
-
             var json = JsonConvert.SerializeObject(coffee);
             var content =
                 new StringContent(json, Encoding.UTF8, "application/json");
-
             var response = await client.PostAsync("api/Coffee", content);
-
             if (!response.IsSuccessStatusCode)
             {
-
             }
         }
-
         public static async Task RemoveCoffee(int id)
         {
             var response = await client.DeleteAsync($"api/Coffee/{id}");
             if (!response.IsSuccessStatusCode)
             {
-
             }
         }
-
 
     }
 }

@@ -40,7 +40,7 @@ namespace MyCoffeeApp.ViewModels
             await Application.Current.MainPage.DisplayAlert("Favorite", coffee.Name, "OK");
         }
 
-        Coffee previouslySelected;
+        //Coffee previouslySelected;
         Coffee selectedCoffee;
         public Coffee SelectedCoffee
         {
@@ -74,7 +74,7 @@ namespace MyCoffeeApp.ViewModels
             if (Coffee.Count >= 20)
                 return;
 
-            var image = "https://www.psdmockups.com/wp-content/uploads/2019/12/Coffee-Bean-Bag-PSD-Mockup.jpg";
+            var image = "https://raw.githubusercontent.com/jamesmontemagno/MyCoffeeApp/bbbdc9baa31886f11545793ea5e9b0ed541e39fc/MyCoffeeApp/MyCoffeeApp.Android/Resources/drawable/coffeebag.png";
             Coffee.Add(new Coffee { Roaster = "Yes Plz", Name = "Sip of Sunshine", Image = image });
             Coffee.Add(new Coffee { Roaster = "Yes Plz", Name = "Potent Potable", Image = image });
             Coffee.Add(new Coffee { Roaster = "Yes Plz", Name = "Potent Potable", Image = image });
